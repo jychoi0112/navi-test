@@ -1,6 +1,8 @@
 import React from 'react';
 import {
+  Alert,
   AsyncStorage,
+  BackHandler,
   Button,
   Image,
   Platform,
@@ -11,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import { AndroidBackHandler } from 'react-navigation-backhandler';
 
 import { MonoText } from '../components/StyledText';
 
@@ -19,8 +22,29 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  onBackButtonPressAndroid = () => {
+    /*
+    *   Returning `true` from `onBackButtonPressAndroid` denotes that we have handled the event,
+    *   and react-navigation's lister will not get called, thus not popping the screen.
+    *
+    *   Returning `false` will cause the event to bubble up and react-navigation's listener will pop the screen.
+    * */
+    let ret = true; // Alert()은 async로 수행되므로 일단 App이 닫히지 않게 true를 반환.
+    Alert.alert(
+      '종료 확인',
+      '앱을 종료하시겠습니까?',
+      [
+        {text: '아니오', onPress: () => ret = true, style: 'cancel'},
+        {text: '예', onPress: () => BackHandler.exitApp()},  // OK 선택하면 앱 종료.
+      ],
+      { cancelable: false }
+    );
+    return ret;
+  };
+
   render() {
     return (
+      <AndroidBackHandler onBackPress={this.onBackButtonPressAndroid}>
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
@@ -64,6 +88,7 @@ export default class HomeScreen extends React.Component {
           <Button title="Sign out!" onPress={this._signOutAsync} />
         </View>
       </View>
+      </AndroidBackHandler>
     );
   }
 
