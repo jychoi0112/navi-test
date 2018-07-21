@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  AsyncStorage,
+  Button,
   Image,
   Platform,
   ScrollView,
@@ -59,10 +61,16 @@ export default class HomeScreen extends React.Component {
           <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
             <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
           </View>
+          <Button title="Sign out!" onPress={this._signOutAsync} />
         </View>
       </View>
     );
   }
+
+  _signOutAsync = async () => {
+    await AsyncStorage.setItem('userToken', '');
+    this.props.navigation.navigate('AuthLoading');
+  };
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
