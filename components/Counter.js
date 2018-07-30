@@ -13,7 +13,7 @@ class Counter extends Component {
       const value = await AsyncStorage.getItem('CNTTEXT');
       if (value !== null) {
         // We have data!!
-        this.props.setCount( value );
+        this.props.setCount( parseInt(value) );
       }
      } catch (error) {
        // Error retrieving data
