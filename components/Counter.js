@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { AsyncStorage, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import ActionCreators from '../store/counter/actions';
 
 class Counter extends Component {
   constructor(props, context) {
     super(props, context);
+  }
+
+  async getItem() {
+    try {
+      const value = await AsyncStorage.getItem('CNTTEXT');
+      if (value !== null) {
+        // We have data!!
+        this.props.setCount( value );
+      }
+     } catch (error) {
+       // Error retrieving data
+       console.log("=== getItem() error="+error);
+     }
+  }
+
+  componentWillMount() {
+    this.getItem();
   }
 
   render() {
@@ -62,6 +79,9 @@ function mapDispatchToProps(dispatch) {
     },
     countDown: (num) => {
       dispatch(ActionCreators.countDown(num));
+    },
+    setCount: (num) => {
+      dispatch(ActionCreators.setCount(num));
     }
   };
 }

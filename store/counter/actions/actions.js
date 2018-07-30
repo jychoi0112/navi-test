@@ -20,3 +20,10 @@ export function countDown(num) {
   };
 }
 
+export function setCount(num) {
+  return {
+    type: types.COUNT_SET,
+    payload: num
+  };
+}
+
