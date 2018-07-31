@@ -101,9 +101,7 @@ export default class LinksScreen extends React.Component {
 
   render() {
     return (
-        <List style={styles.container}
-        containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}
-        >
+      <View>
           <FlatList style={styles.list}
             data={this.state.data}
             renderItem={({ item }) => (
@@ -124,7 +122,7 @@ export default class LinksScreen extends React.Component {
             onEndReached={this.handleLoadMore}
             onEndThreshold={100}
           />
-        </List>
+        </View>
     );
   }
 }
