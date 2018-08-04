@@ -2,8 +2,8 @@
 // redux 모듈의 combineReducer는 트리 구조로 분리된 여러개의 상태를 
 // 하나의 단일 상태 트리로 조합합니다.
 import { combineReducers } from 'redux';
-import CountReducer from './reducer';
+import AddressBook from './reducer';
 
 export default combineReducers({
-  count: CountReducer
+  addrBook: AddressBook
 });

@@ -6,6 +6,17 @@ import types from './actionTypes';
 //
 // 여기서는 "plain object actions" 만 사용.
 
+export function loadCount() {
+  return async(dispatch, getState) => {
+    try {
+      const value = await AsyncStorage.getItem('CNTTEXT');
+      dispatch({ type: types.COUNT_SET, value });
+    } catch (error) {
+      console.error("error in getCount() : " + error);
+    }
+  };
+}
+
 export function countUp(num) {
   return {
     type: types.COUNT_UP,

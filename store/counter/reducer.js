@@ -1,9 +1,11 @@
 
 // TODO : Immutable로 바꾸기.
 import { AsyncStorage} from 'react-native';
-import types from '../actions/actionTypes';
+import types from './actionTypes';
 
-const count = 100;
+const count = { 
+  value: 100
+};
 
 setItem = async (cnt) => {
   try {
@@ -14,18 +16,23 @@ setItem = async (cnt) => {
   }
 }
 
-export default (state = count, action) => {
+export default function reduce(state = count, action = {}) {
   switch (action.type) {
     case types.COUNT_UP:
-      setItem(state + action.payload);
-      return state + action.payload;
+      setItem(state.value + action.payload);
+      return state.merge( { value: state.value + action.payload });
     case types.COUNT_DOWN:
       setItem(state - action.payload);
-      return state - action.payload;
+      return state.merge( { value: state.value - action.payload });
     case types.COUNT_SET:
-      setItem(action.payload);
-      return action.payload;
+      return state.merge( { value: action.payload });
     default:
       return state;
   }
 };
+
+// selectors
+
+export function getCount(state) {
+  return state.count.value;
+}

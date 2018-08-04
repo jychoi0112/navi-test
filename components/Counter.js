@@ -1,28 +1,18 @@
 import React, { Component } from 'react';
 import { AsyncStorage, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import ActionCreators from '../store/counter/actions';
+import * as countSelectors from '../store/counter/reducer';
 
 class Counter extends Component {
   constructor(props, context) {
     super(props, context);
-  }
-
-  async getItem() {
-    try {
-      const value = await AsyncStorage.getItem('CNTTEXT');
-      if (value !== null) {
-        // We have data!!
-        this.props.setCount( parseInt(value) );
-      }
-     } catch (error) {
-       // Error retrieving data
-       console.log("=== getItem() error="+error);
-     }
+    autoBind(this);
   }
 
   componentWillMount() {
-    this.getItem();
+    this.props.dispatch(ActionCreators.loadCount());
   }
 
   render() {
@@ -68,7 +58,7 @@ const s = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    count: state
+    count: countSelectors.getCount(state)
   };
 }
 

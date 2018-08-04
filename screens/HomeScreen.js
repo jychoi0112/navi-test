@@ -17,9 +17,6 @@ import { AndroidBackHandler } from 'react-navigation-backhandler';
 
 import { MonoText } from '../components/StyledText';
 import Counter from '../components/Counter';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import reducers from '../store/counter/reducers/reducer'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -49,7 +46,6 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <AndroidBackHandler onBackPress={this.onBackButtonPressAndroid}>
-      <Provider store={createStore(reducers)}>
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
@@ -94,7 +90,6 @@ export default class HomeScreen extends React.Component {
           <Counter/>
         </View>
       </View>
-      </Provider>
       </AndroidBackHandler>
     );
   }
